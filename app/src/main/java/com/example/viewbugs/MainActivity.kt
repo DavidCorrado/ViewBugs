@@ -23,6 +23,11 @@ class MainActivity : AppCompatActivity() {
                 dialog.show()
                 delay(500L)
                 dialog.dismiss()
+                // It seems that with a dialog there is a bug that when you pop back there is no talkback focus.  This causes when you try to show an error to not be read but be interrupted by focus
+                // We work around the issue by setting focus and waiting a bit to allow settling and then update error text
+                findViewById<Button>(R.id.saveButton).isFocusableInTouchMode = true
+                findViewById<Button>(R.id.saveButton).requestFocus()
+                delay(500L)
                 error = !error
                 findViewById<TextInputLayout>(R.id.firstNameInputLayout).showError(error)
             }
